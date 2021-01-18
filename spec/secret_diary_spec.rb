@@ -40,33 +40,44 @@ RSpec.describe SecretDiary do
 
   context "when locked" do 
     it "cannot be read" do
+      # create a double of the diary
       read_locked_diary = double
+      # we're expecting that diary double shouldn't be able to be read
       expect(read_locked_diary).not_to receive(:read)
+      # create a new instance of SecretDiary using this double and attempt to read it
       secret_diary = SecretDiary.new(read_locked_diary)
       secret_diary.read
     end
 
     it "cannot be written in" do
+      # create a double of the diary 
       write_in_locked_diary = double
+      # we're expecting that diary double shouldn't be able to be written in
       expect(write_in_locked_diary).not_to receive(:write)
+      # create a new instance of SecretDiary using this double and attempt to write in it
       secret_diary = SecretDiary.new(write_in_locked_diary)
-      secret_diary.lock
       secret_diary.write("writing my secret story")
     end
   end
   
   context "when unlocked" do
     it "can get read" do
+      # create a double of the diary 
       read_unlocked_diary = double
+      # we're expecting that diary double should be able to be read as it will be unlocked
       expect(read_unlocked_diary).to receive(:read)
+      # create a new instance of SecretDiary using this double, unlock it, and then attempt to read it
       secret_diary = SecretDiary.new(read_unlocked_diary)
       secret_diary.unlock
       secret_diary.read
     end
 
     it "can get written in" do
+      # create a double of the diary 
       write_in_unlocked_diary = double
+      # we're expecting that diary double should be able to be written in as it will be unlocked
       expect(write_in_unlocked_diary).to receive(:write)
+      # create a new instance of SecretDiary using this double, unlock it, and then attempt to write in it
       secret_diary = SecretDiary.new(write_in_unlocked_diary)
       secret_diary.unlock
       secret_diary.write("writing my secret story")
